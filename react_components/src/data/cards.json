@@ -1,0 +1,24 @@
+{"cards":[
+   {"bookName" : "Harry Potter and Philosopher stone",
+    "author": "J.K. Rowling",
+    "popularity": 9,
+    "year": "1998",
+    "translation": "none",
+    "cover":"potter1.jpg",
+    "pages": "450",
+    "illustration" : "mono",
+    "quantity" : 10,
+    "state" : "base"
+  },
+  {"bookName" : "Harry Potter and Chamber of Secrets",
+  "author": "J.K. Rouling",
+  "popularity": 8,
+  "year": "2000",
+  "translation": "none",
+  "cover":"potter2.jpg",
+  "pages": "500",
+  "illustration" : "mono",
+  "quantity" : 7,
+  "state" : "hot"
+}
+]}
