@@ -1,5 +1,4 @@
-{"cards":[
-   {"bookName" : "Harry Potter and Philosopher stone",
+[{"bookName" : "Harry Potter and Philosopher stone",
     "author": "J.K. Rowling",
     "popularity": 9,
     "year": "1997",
@@ -43,4 +42,4 @@
 "quantity" : 3,
 "state" : "base"
 }
-]}
+]
