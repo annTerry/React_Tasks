@@ -1,0 +1,17 @@
+.one-card__info__props-wrapper
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    filter: none;
+}
+.one-card__wrapper {
+    display: flex;
+    border: 2px solid black;
+    border-radius: 20px 20px 0 0;
+    filter: drop-shadow(15px 5px 4px #b5b5f3);
+    background-color: #f7faeb;
+    padding: 5px;
+}
+.card-key {
+    font-weight: bold;
+}

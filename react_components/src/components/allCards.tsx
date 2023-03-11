@@ -1,6 +1,7 @@
 import { Card } from "common/types";
 import React from "react";
 import OneCard from "./card";
+import './allCards.css'
 
 export default class AllCards extends React.Component {
   creationDataArray:Card[] = [];
@@ -20,7 +21,7 @@ export default class AllCards extends React.Component {
       return <OneCard key={i++} {...card}/>
     });    
     return (
-      <div>        
+      <div className="all-cards__wrapper">        
         {          
         allCardsRender    
         }        
