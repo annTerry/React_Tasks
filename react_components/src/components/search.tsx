@@ -12,8 +12,11 @@ export default class SearchString extends React.Component {
   handleChange(event: ChangeEvent) {
     const element = event.target as HTMLInputElement;
     const value = element.value
-    localStorage.setItem('searchString', value);
     this.setState({value: value});
+  }
+
+  componentWillUnmount() {    
+    localStorage.setItem('searchString', this.state.value);
   }
 
   render() {

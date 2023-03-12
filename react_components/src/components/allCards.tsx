@@ -4,20 +4,21 @@ import OneCard from "./card";
 import './allCards.css'
 
 export default class AllCards extends React.Component {
-  creationDataArray:Card[] = [];
+  state:{cards:Card[]} = {cards: []};  
   constructor(props:PropertyDecorator) {
-    super(props);
-    fetch("/src/assets/data/cards.json")
-            .then(res => res.json())
-            .then(data => {                              
-              this.creationDataArray = data as Card[];
-              this.forceUpdate();
-            }).catch(e => { console.log(e.message) });            
+    super(props);            
   }
-
+  componentDidMount() {
+    fetch("/src/assets/data/cards.json")
+    .then(res => res.json())
+    .then(data => {     
+      this.setState({cards: data as Card[]});        
+    }).catch(e => { console.log(e.message) });
+  }
   render() {        
     let i=0;
-    const allCardsRender=this.creationDataArray.map( (card) => {                    
+    console.log(JSON.stringify(this.state.cards));
+    const allCardsRender=this.state.cards.map( (card) => {                    
       return <OneCard key={i++} {...card}/>
     });    
     return (

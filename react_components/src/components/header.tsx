@@ -1,19 +1,17 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import "./header.css";
 
-export default function Header() {
+export default class Header extends React.Component {
+
+render() {
   return (
       <nav>
         <ul>
           <li>
             <NavLink
-              to="/"
-              style={(isActive) => ({
-                color: isActive ? "green" : "blue",
-              })}
-              className={(isActive) =>
-                "nav-link" + (!isActive ? " unselected" : "")
-              }
+              to="/"              
+              className={(state) => state.isActive ? "header-link active-link" : "header-link"}
             >
               Home
             </NavLink>
@@ -21,12 +19,7 @@ export default function Header() {
           <li>
             <NavLink
               to="/about"
-              style={(isActive) => ({
-                color: isActive ? "green" : "blue",
-              })}
-              className={(isActive) =>
-                "nav-link" + (!isActive ? " unselected" : "")
-              }
+              className={(state) => state.isActive ? "header-link active-link" : "header-link"}
             >
               About
             </NavLink>
@@ -35,4 +28,5 @@ export default function Header() {
       </nav>
 
   );
+}
 }
