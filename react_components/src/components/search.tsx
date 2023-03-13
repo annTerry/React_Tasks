@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from "react";
+import './search.css';
 
 export default class SearchString extends React.Component {
   state = {value: ''};
@@ -21,10 +22,10 @@ export default class SearchString extends React.Component {
 
   render() {
     return (
-      <div>
-      <input type="text" value={this.state.value} onChange={this.handleChange} />
-      <button>Search</button>
-    </div>
+      <div className="search-wrapper">
+        <input className="search-string" type="text" value={this.state.value} onChange={this.handleChange} />
+        <button className="search-button">Search</button>
+      </div>
     );
   }  
 }

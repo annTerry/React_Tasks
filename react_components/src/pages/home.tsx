@@ -4,11 +4,11 @@ import AllCards from "../components/allCards";
 
 export default function Home() {
   return (    
-      <main>
+      <section>
         <SearchString/>
-        <h2>Welcome to the homepage!</h2>
-        <p>You can do this, I believe in you.</p>
+        <h2>Welcome to the Store!</h2>
+        <p>Choose your favorite book</p>
         <AllCards/>
-      </main>
+      </section>
   );
 }

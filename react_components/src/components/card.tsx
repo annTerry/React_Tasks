@@ -1,48 +1,54 @@
 import React from "react";
 import { Card } from "common/types";
 import './card.css';
+import OneCardProperty from "./cardProperty";
 
 
 export default class OneCard extends React.Component<Card> {
-  stat: Card;  
+  state: Card;  
   constructor(props:Card) {
     super(props);
-    this.stat = {
-      bookName :"",
+    this.state = {
+      bookName : "",
       author: "",
       popularity: 0,
-      year: "",      
-      cover: "",
-      pages: 0,      
+      year: "",
+      translation: "",
+      cover: "none.jpg",
+      pages: 0,
+      illustration : "",
       quantity : 0,
+      state : ""
     };      
-    const data = props as unknown as Card;
-    this.stat.bookName = data.bookName;
-    this.stat.author = data.author;
-    this.stat.popularity = data.popularity;
-    this.stat.year = data.year;
-    this.stat.cover = data.cover;
-    this.stat.pages = data.pages;
-    this.stat.quantity = data.quantity;
+    this.state.bookName = props.bookName;
+    this.state.author = props.author;
+    this.state.popularity = props.popularity;
+    this.state.year = props.year;
+    this.state.cover = props.cover;
+    this.state.pages = props.pages;
+    this.state.quantity = props.quantity;
+    this.state.translation = props.translation || "";
+    this.state.illustration = props.illustration || "";
+    this.state.state = props.state || "";
   }
   render() {
-    const coverSrc = "src/assets/covers/" + this.stat.cover; 
+    const coverSrc = "src/assets/covers/" + this.state.cover; 
     return (
       <div className="one-card__wrapper">
         <div className="one-card__cover">
-          <img src={coverSrc} alt={this.stat.bookName}/>
+          <img src={coverSrc} alt={this.state.bookName}/>
         </div>
         <div className="one-card__info-wrapper">
-          <h2>{this.stat.bookName}</h2>
+          <h2>{this.state.bookName}</h2>
           <div className="one-card__info__props-wrapper">
-            <div className="card-key">Author:</div><div className="card-value">{this.stat.author}</div>
-            <div className="card-key">Popularity:</div><div className="card-value">{this.stat.popularity}</div>
-            <div className="card-key">Publish year:</div><div className="card-value">{this.stat.year}</div>
-            <div className="card-key">Translation:</div><div className="card-value">{this.stat.translation}</div>
-            <div className="card-key">Pages Quantity:</div><div className="card-value">{this.stat.pages}</div>
-            <div className="card-key">Illustration:</div><div className="card-value">{this.stat.illustration}</div>
-            <div className="card-key">Quantity:</div><div className="card-value">{this.stat.quantity}</div>
-            <div className="card-key">State:</div><div className="card-value">{this.stat.state}</div>
+            <OneCardProperty viewName="Author" value={this.state.author} key="author"/>
+            <OneCardProperty viewName="Popularity" value={this.state.popularity} key="popularity"/>
+            <OneCardProperty viewName="Publish year" value={this.state.year} key="year"/>
+            <OneCardProperty viewName="Translation" value={this.state.translation} key="translation"/>
+            <OneCardProperty viewName="Pages" value={this.state.pages} key="pages"/>                                    
+            <OneCardProperty viewName="Illustration" value={this.state.illustration} key="illustration"/>            
+            <OneCardProperty viewName="Quantity" value={this.state.quantity} key="quantity"/>            
+            <OneCardProperty viewName="State" value={this.state.state} key="state"/>            
           </div>
         </div> 
       </div>

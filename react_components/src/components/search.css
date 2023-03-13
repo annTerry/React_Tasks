@@ -1,0 +1,14 @@
+.search-wrapper
+{
+display: flex;
+gap: 10px;
+}
+.search-string {
+width: 60vw;
+}
+button.search-button {
+border-radius: 10px;
+}
+button.search-button:hover {
+    background-color: #b5b5f3;
+}

@@ -10,3 +10,12 @@ export interface Card {
     quantity : number,
     state? : string
 };
+
+export interface CardProperty {
+    viewName: string,
+    value?: string | number,    
+};
+
+export interface Popularity {
+    value: number
+}

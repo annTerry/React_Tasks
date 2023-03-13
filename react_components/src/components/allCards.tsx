@@ -4,7 +4,7 @@ import OneCard from "./card";
 import './allCards.css'
 
 export default class AllCards extends React.Component {
-  state:{cards:Card[]} = {cards: []};  
+  state: { cards:Card[] } = { cards: [] };  
   constructor(props:PropertyDecorator) {
     super(props);            
   }
@@ -16,10 +16,9 @@ export default class AllCards extends React.Component {
     }).catch(e => { console.log(e.message) });
   }
   render() {        
-    let i=0;
-    console.log(JSON.stringify(this.state.cards));
+    let i = 0;
     const allCardsRender=this.state.cards.map( (card) => {                    
-      return <OneCard key={i++} {...card}/>
+      return <OneCard key = {i++} {...card}/>
     });    
     return (
       <div className="all-cards__wrapper">        

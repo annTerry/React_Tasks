@@ -10,7 +10,10 @@
     border-radius: 20px 20px 0 0;
     filter: drop-shadow(15px 5px 4px #b5b5f3);
     background-color: #f7faeb;
-    padding: 5px;
+    padding: 10px;
+    gap: 10px;
+    min-width: min-content;
+    max-width: 45vw;
 }
 .card-key {
     font-weight: bold;
