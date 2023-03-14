@@ -23,7 +23,7 @@ export default class SearchString extends React.Component {
   render() {
     return (
       <div className="search-wrapper">
-        <input className="search-string" type="text" value={this.state.value} onChange={this.handleChange} />
+        <input placeholder="Search" className="search-string" type="text" value={this.state.value} onChange={this.handleChange} />
         <button className="search-button">Search</button>
       </div>
     );

@@ -9,27 +9,17 @@ export default class OneCard extends React.Component<Card> {
   constructor(props:Card) {
     super(props);
     this.state = {
-      bookName : "",
-      author: "",
-      popularity: 0,
-      year: "",
-      translation: "",
-      cover: "none.jpg",
-      pages: 0,
-      illustration : "",
-      quantity : 0,
-      state : ""
-    };      
-    this.state.bookName = props.bookName;
-    this.state.author = props.author;
-    this.state.popularity = props.popularity;
-    this.state.year = props.year;
-    this.state.cover = props.cover;
-    this.state.pages = props.pages;
-    this.state.quantity = props.quantity;
-    this.state.translation = props.translation || "";
-    this.state.illustration = props.illustration || "";
-    this.state.state = props.state || "";
+      bookName : props.bookName,
+      author: props.author,
+      popularity: props.popularity,
+      year: props.year,
+      translation: props.translation || "",
+      cover: props.cover || "none.jpg",
+      pages: props.pages,
+      illustration : props.illustration || "",
+      quantity : props.quantity,
+      state : props.state || ""
+    };
   }
   render() {
     const coverSrc = "src/assets/covers/" + this.state.cover; 
