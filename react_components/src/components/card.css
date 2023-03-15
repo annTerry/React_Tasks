@@ -4,6 +4,7 @@
     grid-template-columns: 1fr 1fr;
     filter: none;
 }
+
 .one-card__wrapper {
     display: flex;
     border: 2px solid black;
@@ -14,7 +15,10 @@
     gap: 10px;
     min-width: min-content;
     max-width: 45vw;
+    align-items: center;
+    justify-content: center;
 }
+
 .card-key {
     font-weight: bold;
 }
