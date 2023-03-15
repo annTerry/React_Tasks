@@ -1,2 +1,2 @@
 # React_Components
-Educational project fo React RSSCourse
+Educational project
