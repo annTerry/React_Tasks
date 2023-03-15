@@ -3,6 +3,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     filter: none;
+    gap: 6px;
 }
 
 .one-card__wrapper {
@@ -21,4 +22,5 @@
 
 .card-key {
     font-weight: bold;
+    align-self: center;
 }

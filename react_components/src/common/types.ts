@@ -19,3 +19,7 @@ export interface CardProperty {
 export interface Popularity {
   value: number;
 }
+
+export interface Simple {
+  value: string;
+}

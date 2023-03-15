@@ -42,4 +42,16 @@
 "quantity" : 3,
 "state" : "base"
 }
+,
+{"bookName" : "Best book ever",
+"author": "Best of the Best Writer",
+"popularity": 5,
+"year": "2100",
+"translation": "Greek",
+"cover":"",
+"pages": "800",
+"illustration" : "poly",
+"quantity" : 0,
+"state" : "hot"
+}
 ]
