@@ -17,6 +17,14 @@ export default class Header extends React.Component {
           </li>
           <li>
             <NavLink
+              to="/forms"
+              className={(state) => (state.isActive ? 'header-link active-link' : 'header-link')}
+            >
+              Order form
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/about"
               className={(state) => (state.isActive ? 'header-link active-link' : 'header-link')}
             >
