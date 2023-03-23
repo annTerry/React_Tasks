@@ -23,3 +23,15 @@ export interface Popularity {
 export interface Simple {
   value: string;
 }
+
+export interface Order {
+  name: string;
+  surname: string;
+  quantity: number;
+  presents: string[];
+  mail: string;
+  send: string;
+  country: string;
+  address: string;
+  invoice: File;
+}
