@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card } from 'common/types';
 import './card.css';
-import OneCardProperty from './cardProperty';
-import { COVERS_URL, NO_COVER } from '../common/const';
+import OneCardProperty from '../CardsPropertyComponents/cardProperty';
+import { COVERS_URL, NO_COVER } from '../../common/const';
 
 export default class OneCard extends React.Component<Card> {
   state: Card;

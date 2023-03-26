@@ -1,5 +1,6 @@
 import { Order } from 'common/types';
 import React from 'react';
+import './orderCard.css';
 
 export default class OrderCard extends React.Component<Order> {
   constructor(props: Order) {
@@ -7,15 +8,33 @@ export default class OrderCard extends React.Component<Order> {
   }
   render() {
     return (
-      <div>
+      <div className="one-order-card">
         <h3>Order:</h3>
-        <div>{this.props.name}</div>
-        <div>{this.props.quantity}</div>
-        <div>{this.props.presents.join(', ')}</div>
-        <div>{this.props.send}</div>
-        <div>{this.props.address}</div>
-        <div>{this.props.country}</div>
-        <img src={this.props.invoice} />
+        <div className="order-property">
+          <span>Name:</span>
+          <span>{this.props.name}</span>
+        </div>
+        <div className="order-property">
+          <span>Quantity:</span>
+          <span>{this.props.quantity}</span>
+        </div>
+        <div className="order-property">
+          <span>Presents:</span>
+          <span>{this.props.presents.join(', ')}</span>
+        </div>
+        <div className="order-property">
+          <span>Send by:</span>
+          <span>{this.props.send}</span>
+        </div>
+        <div className="order-property">
+          <span>Send to:</span>
+          <span>
+            {this.props.address}, {this.props.country}
+          </span>
+        </div>
+        <div className="img-wrapper">
+          <img src={this.props.invoice} />
+        </div>
       </div>
     );
   }

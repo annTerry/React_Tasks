@@ -1,5 +1,6 @@
 import React from 'react';
 import { OrderFormsType, FieldObject, OneFieldObject, OrderData, Order } from '../../common/types';
+import './orderForm.css';
 
 export default class OrderForms extends React.Component<OrderData> {
   fieldsData = new FieldObject();
@@ -11,6 +12,10 @@ export default class OrderForms extends React.Component<OrderData> {
     super(props);
     this.handleSend = this.handleSend.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
+    this.setRefs();
+  }
+
+  setRefs() {
     this.fieldsData.name.ref = React.createRef() as React.RefObject<HTMLInputElement>;
     this.fieldsData.quantity.ref = React.createRef() as React.RefObject<HTMLInputElement>;
     this.fieldsData.presents.refs = {};
@@ -55,69 +60,81 @@ export default class OrderForms extends React.Component<OrderData> {
     };
     event.preventDefault();
     const error: { [key: string]: string } = {};
-    const name = this.fieldsData.name.ref?.current?.value;
-    if (!name) {
+
+    if (!this.fieldsData.name.check()) {
       error.name = 'Enter the name';
     } else {
-      newOrder.name = name;
+      newOrder.name = this.fieldsData.name.ref?.current?.value as string;
     }
-    const quantity = this.fieldsData.quantity.ref?.current?.value;
-    if (!quantity || !+quantity || +quantity < 1 || +quantity > 10) {
+
+    if (!this.fieldsData.quantity.check()) {
       error.quantity = 'Quantity must be more then zero and not more then 9';
     } else {
+      const quantity = this.fieldsData.quantity.ref?.current?.value as string;
       newOrder.quantity = +quantity;
     }
-    const presents: string[] = [];
-    if (this.fieldsData.presents.refs?.postcard.current?.checked) presents.push('postcard');
-    if (this.fieldsData.presents.refs?.wrapper.current?.checked) presents.push('wrapper');
-    if (this.fieldsData.presents.refs?.bookmark.current?.checked) presents.push('bookmark');
-    if (presents.length === 0) {
+
+    if (!this.fieldsData.presents.check()) {
       error.presents = 'Choose at least one present';
     } else {
-      newOrder.presents = presents;
+      if (this.fieldsData.presents.refs) {
+        const presents = Object.values(this.fieldsData.presents.refs).filter(
+          (data) => data.current?.checked
+        );
+        newOrder.presents = presents.map((data) => data.current?.value as string);
+      }
     }
-    let send = '';
-    if (this.fieldsData.send.refs?.post.current?.checked) send = 'post';
-    if (this.fieldsData.send.refs?.dhl.current?.checked) send = 'dhl';
-    if (this.fieldsData.send.refs?.pony.current?.checked) send = 'pony';
-    if (!send) {
+
+    if (!this.fieldsData.send.check()) {
       error.send = 'Choose send type';
     } else {
-      newOrder.send = send;
+      if (this.fieldsData.send.refs) {
+        const send = Object.values(this.fieldsData.send.refs).filter(
+          (data) => data.current?.checked
+        );
+        newOrder.send = send.map((data) => data.current?.value).join('');
+      }
     }
-    const country = this.fieldsData.country.ref?.current?.value;
-    if (!country) {
+
+    if (!this.fieldsData.country.check()) {
       error.country = 'Choose country';
     } else {
-      newOrder.country = country;
+      newOrder.country = this.fieldsData.country.ref?.current?.value as string;
     }
-    const address = this.fieldsData.address.ref?.current?.value;
-    if (!address) {
+
+    if (!this.fieldsData.address.check()) {
       error.address = 'Enter your address';
     } else {
+      const address = this.fieldsData.address.ref?.current?.value as string;
       newOrder.address = address;
     }
-    const fileInputRef = this.fieldsData.invoice.ref?.current as HTMLInputElement;
-    const fileResults = fileInputRef.files;
-    if (fileResults && fileResults.length > 0) {
-      newOrder.invoice = URL.createObjectURL(fileResults[0]);
+
+    if (this.fieldsData.invoice.check()) {
+      const fileInputRef = this.fieldsData.invoice.ref?.current as HTMLInputElement;
+      const fileResults = fileInputRef.files;
+      if (fileResults) newOrder.invoice = URL.createObjectURL(fileResults[0]);
     } else {
       error.invoice = 'Add File';
     }
+
     if (Object.keys(error).length > 0) {
       this.setState({ errors: error });
     } else {
       this.props.saveOrder(newOrder);
-      for (const field of Object.values(this.fieldsData)) {
-        if (field.ref && field.ref.current) field.ref.current.value = '';
-        if (field.refs) {
-          Object.values(field.refs).forEach((data) => {
-            const checkField = data as React.RefObject<HTMLInputElement>;
-            if (checkField.current) {
-              checkField.current.checked = false;
-            }
-          });
-        }
+      this.clearFields();
+    }
+  }
+
+  clearFields() {
+    for (const field of Object.values(this.fieldsData)) {
+      if (field.ref && field.ref.current) field.ref.current.value = '';
+      if (field.refs) {
+        Object.values(field.refs).forEach((data) => {
+          const checkField = data as React.RefObject<HTMLInputElement>;
+          if (checkField.current) {
+            checkField.current.checked = false;
+          }
+        });
       }
     }
   }
@@ -132,83 +149,108 @@ export default class OrderForms extends React.Component<OrderData> {
         );
       } else return '';
     });
+
     return (
-      <div>
+      <div className="form__wrapper">
         <h2>Form:</h2>
         <form onSubmit={this.handleSend}>
-          <input
-            autoComplete="off"
-            onInput={this.handleCheck}
-            type="text"
-            id="form-name"
-            ref={this.fieldsData.name.ref as React.RefObject<HTMLInputElement>}
-            name="name"
-            placeholder="Your Name"
-          />
+          <label>
+            Name:
+            <input
+              autoComplete="off"
+              onInput={this.handleCheck}
+              type="text"
+              id="form-name"
+              ref={this.fieldsData.name.ref as React.RefObject<HTMLInputElement>}
+              name="name"
+              placeholder="Your Name"
+            />
+          </label>
           {errorsElements[0]}
-          <input
-            autoComplete="off"
-            onInput={this.handleCheck}
-            type="number"
-            ref={this.fieldsData.quantity.ref as React.RefObject<HTMLInputElement>}
-            name="quantity"
-            placeholder="Quantity"
-          />
+          <label>
+            Quantity:
+            <input
+              autoComplete="off"
+              onInput={this.handleCheck}
+              type="number"
+              ref={this.fieldsData.quantity.ref as React.RefObject<HTMLInputElement>}
+              name="quantity"
+              placeholder="Quantity"
+            />
+          </label>
           {errorsElements[1]}
           <fieldset>
             <legend>Add presents:</legend>
-            <input
-              autoComplete="off"
-              onInput={this.handleCheck}
-              type="checkbox"
-              name="presents"
-              ref={this.fieldsData.presents.refs?.postcard as React.RefObject<HTMLInputElement>}
-              value="postcard"
-            />
-            <input
-              onInput={this.handleCheck}
-              autoComplete="off"
-              type="checkbox"
-              name="presents"
-              ref={this.fieldsData.presents.refs?.wrapper as React.RefObject<HTMLInputElement>}
-              value="wrapper"
-            />
-            <input
-              onInput={this.handleCheck}
-              autoComplete="off"
-              type="checkbox"
-              name="presents"
-              ref={this.fieldsData.presents.refs?.bookmark as React.RefObject<HTMLInputElement>}
-              value="bookmark"
-            />
+            <label>
+              Postcard:
+              <input
+                autoComplete="off"
+                onInput={this.handleCheck}
+                type="checkbox"
+                name="presents"
+                ref={this.fieldsData.presents.refs?.postcard as React.RefObject<HTMLInputElement>}
+                value="postcard"
+              />
+            </label>
+            <label>
+              Wrapper:
+              <input
+                onInput={this.handleCheck}
+                autoComplete="off"
+                type="checkbox"
+                name="presents"
+                ref={this.fieldsData.presents.refs?.wrapper as React.RefObject<HTMLInputElement>}
+                value="wrapper"
+              />
+            </label>
+            <label>
+              Bookmark:
+              <input
+                onInput={this.handleCheck}
+                autoComplete="off"
+                type="checkbox"
+                name="presents"
+                ref={this.fieldsData.presents.refs?.bookmark as React.RefObject<HTMLInputElement>}
+                value="bookmark"
+              />
+            </label>
           </fieldset>
           {errorsElements[2]}
           <fieldset>
             <legend>Delivery:</legend>
-            <input
-              autoComplete="off"
-              onInput={this.handleCheck}
-              type="radio"
-              name="send"
-              ref={this.fieldsData.send.refs?.post as React.RefObject<HTMLInputElement>}
-              value="post"
-            />
-            <input
-              autoComplete="off"
-              onInput={this.handleCheck}
-              type="radio"
-              name="send"
-              ref={this.fieldsData.send.refs?.dhl as React.RefObject<HTMLInputElement>}
-              value="dhl"
-            />
-            <input
-              autoComplete="off"
-              onInput={this.handleCheck}
-              type="radio"
-              name="send"
-              ref={this.fieldsData.send.refs?.pony as React.RefObject<HTMLInputElement>}
-              value="pony"
-            />
+            <label>
+              Post:
+              <input
+                autoComplete="off"
+                onInput={this.handleCheck}
+                type="radio"
+                name="send"
+                ref={this.fieldsData.send.refs?.post as React.RefObject<HTMLInputElement>}
+                value="post"
+              />
+            </label>
+            <label>
+              DHL:
+              <input
+                autoComplete="off"
+                onInput={this.handleCheck}
+                type="radio"
+                name="send"
+                ref={this.fieldsData.send.refs?.dhl as React.RefObject<HTMLInputElement>}
+                value="dhl"
+              />
+            </label>
+            <label>
+              Pony:
+              <input
+                autoComplete="off"
+                onInput={this.handleCheck}
+                type="radio"
+                name="send"
+                ref={this.fieldsData.send.refs?.pony as React.RefObject<HTMLInputElement>}
+                value="pony"
+              />
+            </label>
           </fieldset>
           {errorsElements[3]}
           <select
@@ -223,26 +265,32 @@ export default class OrderForms extends React.Component<OrderData> {
             <option value="France">France</option>
           </select>
           {errorsElements[4]}
-          <input
-            autoComplete="off"
-            onInput={this.handleCheck}
-            type="text"
-            ref={this.fieldsData.address.ref as React.RefObject<HTMLInputElement>}
-            name="address"
-            placeholder="address"
-          />
+          <label>
+            Address:
+            <input
+              autoComplete="off"
+              onInput={this.handleCheck}
+              type="text"
+              ref={this.fieldsData.address.ref as React.RefObject<HTMLInputElement>}
+              name="address"
+              placeholder="address"
+            />
+          </label>
           {errorsElements[5]}
-          <input
-            autoComplete="off"
-            onInput={this.handleCheck}
-            type="file"
-            ref={this.fieldsData.invoice.ref as React.RefObject<HTMLInputElement>}
-            name="invoice"
-            placeholder="Upload check"
-            accept=".jpg,.png,.svg"
-          />
+          <label>
+            Invoice:
+            <input
+              autoComplete="off"
+              onInput={this.handleCheck}
+              type="file"
+              ref={this.fieldsData.invoice.ref as React.RefObject<HTMLInputElement>}
+              name="invoice"
+              placeholder="Upload check"
+              accept=".jpg,.png,.svg"
+            />
+          </label>
           {errorsElements[6]}
-          <input type="submit" value="Submit" />
+          <input className="form__submit-button" type="submit" value="Submit" />
         </form>
       </div>
     );

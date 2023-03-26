@@ -1,0 +1,26 @@
+.one-order-card {
+    border: 2px solid rgb(49, 51, 187);
+    background-color: antiquewhite;
+    display: flex;
+    gap: 10px;
+    max-width: 24vw;
+    flex-direction: column;
+    border-radius: 15px;
+    padding: 5px;
+}
+.order-property {
+    display: flex;
+    gap: 10px;
+}
+.order-property span:first-child {
+    font-weight: bold;
+}
+.order-property:nth-child(even) {
+    background-color: burlywood;
+}
+.img-wrapper {
+    max-width: 23vw;
+}
+img {
+    width:100%;
+}

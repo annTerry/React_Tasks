@@ -2,7 +2,7 @@ import { Card } from 'common/types';
 import React from 'react';
 import OneCard from './card';
 import './allCards.css';
-import { DATA_PATH } from '../common/const';
+import { DATA_PATH } from '../../common/const';
 
 export default class AllCards extends React.Component {
   state: { cards: Card[] } = { cards: [] };

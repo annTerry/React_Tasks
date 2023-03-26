@@ -1,6 +1,6 @@
 import SearchString from '../components/search';
 import React from 'react';
-import AllCards from '../components/allCards';
+import AllCards from '../components/CardsComponents/allCards';
 
 export default class Home extends React.Component {
   render() {

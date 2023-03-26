@@ -1,6 +1,7 @@
 import { StateOrder } from 'common/types';
 import React from 'react';
 import OrderCard from './orderCard';
+import './orderAllCards.css';
 
 export default class AllOrderCards extends React.Component<StateOrder> {
   constructor(props: StateOrder) {
@@ -20,9 +21,9 @@ export default class AllOrderCards extends React.Component<StateOrder> {
       />
     ));
     return (
-      <div>
+      <div className="orders__wrapper">
         <h2>Orders:</h2>
-        {orders}
+        <div className="all-orders-card__wrapper">{orders}</div>
       </div>
     );
   }

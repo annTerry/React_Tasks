@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import OneCard from '../src/components/card';
+import OneCard from '../src/components/CardsComponents/card';
 import React from 'react';
 
 describe('One card property test', () => {
