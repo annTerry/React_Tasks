@@ -34,6 +34,10 @@ export interface Order {
   invoice: string;
 }
 
+export type StateOrder = {
+  orders: Order[];
+};
+
 export interface OrderData {
   saveOrder: (data: Order) => void;
 }

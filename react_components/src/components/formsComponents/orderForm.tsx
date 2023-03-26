@@ -1,13 +1,13 @@
 import React from 'react';
-import { OrderFormsType, FieldObject, OneFieldObject } from '../../common/types';
+import { OrderFormsType, FieldObject, OneFieldObject, OrderData, Order } from '../../common/types';
 
-export default class OrderForms extends React.Component {
+export default class OrderForms extends React.Component<OrderData> {
   fieldsData = new FieldObject();
   state: OrderFormsType = {
     errors: {},
   };
 
-  constructor(props: PropertyDecorator) {
+  constructor(props: OrderData) {
     super(props);
     this.handleSend = this.handleSend.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
@@ -44,15 +44,28 @@ export default class OrderForms extends React.Component {
   }
 
   handleSend(event: React.SyntheticEvent) {
+    const newOrder: Order = {
+      name: '',
+      quantity: 1,
+      presents: [''],
+      send: '',
+      country: '',
+      address: '',
+      invoice: '',
+    };
     event.preventDefault();
     const error: { [key: string]: string } = {};
     const name = this.fieldsData.name.ref?.current?.value;
     if (!name) {
       error.name = 'Enter the name';
+    } else {
+      newOrder.name = name;
     }
     const quantity = this.fieldsData.quantity.ref?.current?.value;
     if (!quantity || !+quantity || +quantity < 1 || +quantity > 10) {
       error.quantity = 'Quantity must be more then zero and not more then 9';
+    } else {
+      newOrder.quantity = +quantity;
     }
     const presents: string[] = [];
     if (this.fieldsData.presents.refs?.postcard.current?.checked) presents.push('postcard');
@@ -60,6 +73,8 @@ export default class OrderForms extends React.Component {
     if (this.fieldsData.presents.refs?.bookmark.current?.checked) presents.push('bookmark');
     if (presents.length === 0) {
       error.presents = 'Choose at least one present';
+    } else {
+      newOrder.presents = presents;
     }
     let send = '';
     if (this.fieldsData.send.refs?.post.current?.checked) send = 'post';
@@ -67,26 +82,43 @@ export default class OrderForms extends React.Component {
     if (this.fieldsData.send.refs?.pony.current?.checked) send = 'pony';
     if (!send) {
       error.send = 'Choose send type';
+    } else {
+      newOrder.send = send;
     }
     const country = this.fieldsData.country.ref?.current?.value;
     if (!country) {
       error.country = 'Choose country';
+    } else {
+      newOrder.country = country;
     }
     const address = this.fieldsData.address.ref?.current?.value;
     if (!address) {
       error.address = 'Enter your address';
+    } else {
+      newOrder.address = address;
     }
     const fileInputRef = this.fieldsData.invoice.ref?.current as HTMLInputElement;
     const fileResults = fileInputRef.files;
     if (fileResults && fileResults.length > 0) {
-      const dataFile = URL.createObjectURL(fileResults[0]);
+      newOrder.invoice = URL.createObjectURL(fileResults[0]);
     } else {
       error.invoice = 'Add File';
     }
     if (Object.keys(error).length > 0) {
       this.setState({ errors: error });
     } else {
-      this.forceUpdate();
+      this.props.saveOrder(newOrder);
+      for (const field of Object.values(this.fieldsData)) {
+        if (field.ref && field.ref.current) field.ref.current.value = '';
+        if (field.refs) {
+          Object.values(field.refs).forEach((data) => {
+            const checkField = data as React.RefObject<HTMLInputElement>;
+            if (checkField.current) {
+              checkField.current.checked = false;
+            }
+          });
+        }
+      }
     }
   }
 
@@ -105,6 +137,7 @@ export default class OrderForms extends React.Component {
         <h2>Form:</h2>
         <form onSubmit={this.handleSend}>
           <input
+            autoComplete="off"
             onInput={this.handleCheck}
             type="text"
             id="form-name"
@@ -114,6 +147,7 @@ export default class OrderForms extends React.Component {
           />
           {errorsElements[0]}
           <input
+            autoComplete="off"
             onInput={this.handleCheck}
             type="number"
             ref={this.fieldsData.quantity.ref as React.RefObject<HTMLInputElement>}
@@ -124,6 +158,7 @@ export default class OrderForms extends React.Component {
           <fieldset>
             <legend>Add presents:</legend>
             <input
+              autoComplete="off"
               onInput={this.handleCheck}
               type="checkbox"
               name="presents"
@@ -132,6 +167,7 @@ export default class OrderForms extends React.Component {
             />
             <input
               onInput={this.handleCheck}
+              autoComplete="off"
               type="checkbox"
               name="presents"
               ref={this.fieldsData.presents.refs?.wrapper as React.RefObject<HTMLInputElement>}
@@ -139,6 +175,7 @@ export default class OrderForms extends React.Component {
             />
             <input
               onInput={this.handleCheck}
+              autoComplete="off"
               type="checkbox"
               name="presents"
               ref={this.fieldsData.presents.refs?.bookmark as React.RefObject<HTMLInputElement>}
@@ -149,6 +186,7 @@ export default class OrderForms extends React.Component {
           <fieldset>
             <legend>Delivery:</legend>
             <input
+              autoComplete="off"
               onInput={this.handleCheck}
               type="radio"
               name="send"
@@ -156,6 +194,7 @@ export default class OrderForms extends React.Component {
               value="post"
             />
             <input
+              autoComplete="off"
               onInput={this.handleCheck}
               type="radio"
               name="send"
@@ -163,6 +202,7 @@ export default class OrderForms extends React.Component {
               value="dhl"
             />
             <input
+              autoComplete="off"
               onInput={this.handleCheck}
               type="radio"
               name="send"
@@ -172,17 +212,19 @@ export default class OrderForms extends React.Component {
           </fieldset>
           {errorsElements[3]}
           <select
+            autoComplete="off"
             onInput={this.handleCheck}
             ref={this.fieldsData.country.ref as React.RefObject<HTMLSelectElement>}
             name="country"
-            placeholder="Country"
           >
+            <option value="">Country</option>
             <option value="UK">Uk</option>
             <option value="Ireland">Ireland</option>
             <option value="France">France</option>
           </select>
           {errorsElements[4]}
           <input
+            autoComplete="off"
             onInput={this.handleCheck}
             type="text"
             ref={this.fieldsData.address.ref as React.RefObject<HTMLInputElement>}
@@ -191,6 +233,7 @@ export default class OrderForms extends React.Component {
           />
           {errorsElements[5]}
           <input
+            autoComplete="off"
             onInput={this.handleCheck}
             type="file"
             ref={this.fieldsData.invoice.ref as React.RefObject<HTMLInputElement>}
