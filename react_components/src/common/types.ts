@@ -26,12 +26,77 @@ export interface Simple {
 
 export interface Order {
   name: string;
-  surname: string;
   quantity: number;
   presents: string[];
-  mail: string;
   send: string;
   country: string;
   address: string;
-  invoice: File;
+  invoice: string;
+}
+
+export interface OrderData {
+  saveOrder: (data: Order) => void;
+}
+
+export type OneFieldObject = {
+  ref?: React.RefObject<HTMLInputElement> | React.RefObject<HTMLSelectElement>;
+  refs?: { [key: string]: React.RefObject<HTMLInputElement> };
+  check: () => boolean;
+};
+
+export type OrderFormsType = {
+  errors: { [key: string]: string };
+};
+
+export class FieldObject {
+  name: OneFieldObject = {
+    check() {
+      return !!this.ref && !!this.ref.current?.value;
+    },
+  };
+  quantity: OneFieldObject = {
+    check() {
+      const data = this.ref?.current?.value;
+      return !!(data && +data > 0 && +data < 10);
+    },
+  };
+  presents: OneFieldObject = {
+    check() {
+      const collectionRefs = this.refs;
+      if (collectionRefs) {
+        const checkedRefs = Object.values(collectionRefs).filter(
+          (refData) => refData.current?.checked
+        );
+        return checkedRefs.length > 0;
+      }
+      return false;
+    },
+  };
+  send: OneFieldObject = {
+    check() {
+      const collectionRefs = this.refs;
+      if (collectionRefs) {
+        const checkedRefs = Object.values(collectionRefs).filter(
+          (refData) => refData.current?.checked
+        );
+        return checkedRefs.length > 0;
+      }
+      return false;
+    },
+  };
+  country: OneFieldObject = {
+    check() {
+      return !!this.ref && !!this.ref.current?.value;
+    },
+  };
+  address: OneFieldObject = {
+    check() {
+      return !!this.ref && !!this.ref.current?.value;
+    },
+  };
+  invoice: OneFieldObject = {
+    check() {
+      return !!this.ref && !!this.ref.current?.value;
+    },
+  };
 }
