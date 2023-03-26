@@ -1,0 +1,49 @@
+.form__wrapper {
+    margin: 10px auto;
+    text-align: center;    
+}
+
+form {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;    
+    align-items: center;
+    background-color: beige;
+}
+
+label {
+    padding: 6px;
+    font-weight: bold;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+}
+
+label:nth-child(even) {
+    background-color: bisque;
+}
+label:nth-child(odd) {
+    background-color:honeydew;
+}
+
+input {
+    font-weight: normal;
+    padding: 2px;
+}
+.form-error {
+    color: red;
+}
+
+.form__submit-button {
+    background-color: antiquewhite;
+    padding: 10px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.form__submit-button:hover {
+    background-color: rgb(245, 245, 121);
+}
