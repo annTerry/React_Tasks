@@ -18,6 +18,7 @@ export default class AllOrderCards extends React.Component<StateOrder> {
         presents={order.presents}
         invoice={order.invoice}
         address={order.address}
+        date={order.date}
       />
     ));
     return (

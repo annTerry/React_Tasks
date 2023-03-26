@@ -15,6 +15,10 @@ export default class OrderCard extends React.Component<Order> {
           <span>{this.props.name}</span>
         </div>
         <div className="order-property">
+          <span>Date:</span>
+          <span>{this.props.date}</span>
+        </div>
+        <div className="order-property">
           <span>Quantity:</span>
           <span>{this.props.quantity}</span>
         </div>

@@ -29,6 +29,7 @@ export default class OrderForms extends React.Component<OrderData> {
     this.fieldsData.country.ref = React.createRef() as React.RefObject<HTMLSelectElement>;
     this.fieldsData.address.ref = React.createRef() as React.RefObject<HTMLInputElement>;
     this.fieldsData.invoice.ref = React.createRef() as React.RefObject<HTMLInputElement>;
+    this.fieldsData.date.ref = React.createRef() as React.RefObject<HTMLInputElement>;
   }
 
   handleCheck(event: React.SyntheticEvent) {
@@ -51,6 +52,7 @@ export default class OrderForms extends React.Component<OrderData> {
   handleSend(event: React.SyntheticEvent) {
     const newOrder: Order = {
       name: '',
+      date: '',
       quantity: 1,
       presents: [''],
       send: '',
@@ -65,6 +67,12 @@ export default class OrderForms extends React.Component<OrderData> {
       error.name = 'Enter the name';
     } else {
       newOrder.name = this.fieldsData.name.ref?.current?.value as string;
+    }
+
+    if (!this.fieldsData.date.check()) {
+      error.date = 'Set the date';
+    } else {
+      newOrder.date = this.fieldsData.date.ref?.current?.value as string;
     }
 
     if (!this.fieldsData.quantity.check()) {
@@ -168,6 +176,19 @@ export default class OrderForms extends React.Component<OrderData> {
           </label>
           {errorsElements[0]}
           <label>
+            Date:
+            <input
+              autoComplete="off"
+              onInput={this.handleCheck}
+              type="date"
+              id="form-name"
+              ref={this.fieldsData.date.ref as React.RefObject<HTMLInputElement>}
+              name="date"
+              placeholder="Date"
+            />
+          </label>
+          {errorsElements[1]}
+          <label>
             Quantity:
             <input
               autoComplete="off"
@@ -178,7 +199,7 @@ export default class OrderForms extends React.Component<OrderData> {
               placeholder="Quantity"
             />
           </label>
-          {errorsElements[1]}
+          {errorsElements[2]}
           <fieldset>
             <legend>Add presents:</legend>
             <label>
@@ -215,7 +236,7 @@ export default class OrderForms extends React.Component<OrderData> {
               />
             </label>
           </fieldset>
-          {errorsElements[2]}
+          {errorsElements[3]}
           <fieldset>
             <legend>Delivery:</legend>
             <label>
@@ -252,7 +273,7 @@ export default class OrderForms extends React.Component<OrderData> {
               />
             </label>
           </fieldset>
-          {errorsElements[3]}
+          {errorsElements[4]}
           <select
             autoComplete="off"
             onInput={this.handleCheck}
@@ -264,7 +285,7 @@ export default class OrderForms extends React.Component<OrderData> {
             <option value="Ireland">Ireland</option>
             <option value="France">France</option>
           </select>
-          {errorsElements[4]}
+          {errorsElements[5]}
           <label>
             Address:
             <input
@@ -276,7 +297,7 @@ export default class OrderForms extends React.Component<OrderData> {
               placeholder="address"
             />
           </label>
-          {errorsElements[5]}
+          {errorsElements[6]}
           <label>
             Invoice:
             <input
@@ -289,7 +310,7 @@ export default class OrderForms extends React.Component<OrderData> {
               accept=".jpg,.png,.svg"
             />
           </label>
-          {errorsElements[6]}
+          {errorsElements[7]}
           <input className="form__submit-button" type="submit" value="Submit" />
         </form>
       </div>

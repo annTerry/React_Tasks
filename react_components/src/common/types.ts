@@ -32,6 +32,7 @@ export interface Order {
   country: string;
   address: string;
   invoice: string;
+  date: string;
 }
 
 export type StateOrder = {
@@ -54,6 +55,11 @@ export type OrderFormsType = {
 
 export class FieldObject {
   name: OneFieldObject = {
+    check() {
+      return !!this.ref && !!this.ref.current?.value;
+    },
+  };
+  date: OneFieldObject = {
     check() {
       return !!this.ref && !!this.ref.current?.value;
     },

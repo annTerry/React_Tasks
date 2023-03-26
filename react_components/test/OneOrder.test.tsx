@@ -14,6 +14,7 @@ describe('One Order test', () => {
         send="post"
         invoice=" "
         address="some data"
+        date="16-15-2023"
       />
     );
     expect(screen.getByText(/Name/i)).toBeDefined();
