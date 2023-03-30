@@ -7,20 +7,18 @@ import About from './pages/about';
 import React from 'react';
 import Forms from './pages/forms';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/forms" element={<Forms />} />
-            <Route path="/about" element={<About />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-      </div>
-    );
-  }
+export default function App() {
+  return (
+    <div className="App">
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/forms" element={<Forms />} />
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+    </div>
+  );
 }
