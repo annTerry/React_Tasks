@@ -1,37 +1,30 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import './search.css';
 
-export default class SearchString extends React.Component {
-  state = { value: '' };
-  constructor(props: PropertyDecorator) {
-    super(props);
-    const value = localStorage.getItem('searchString') || '';
-    this.state.value = value;
-    this.handleChange = this.handleChange.bind(this);
-  }
+export default function SearchString() {
+  const defaultValue = localStorage.getItem('searchString') || '';
+  const [searchStringValue, setOrders] = useState<string>(defaultValue);
 
-  handleChange(event: ChangeEvent) {
+  useEffect(() => {
+    localStorage.setItem('searchString', searchStringValue);
+  });
+
+  function handleChange(event: ChangeEvent) {
     const element = event.target as HTMLInputElement;
     const value = element.value;
-    this.setState({ value: value });
+    setOrders(value);
   }
 
-  componentWillUnmount() {
-    localStorage.setItem('searchString', this.state.value);
-  }
-
-  render() {
-    return (
-      <div className="search-wrapper">
-        <input
-          placeholder="Search"
-          className="search-string"
-          type="text"
-          value={this.state.value}
-          onChange={this.handleChange}
-        />
-        <button className="search-button">Search</button>
-      </div>
-    );
-  }
+  return (
+    <div className="search-wrapper">
+      <input
+        placeholder="Search"
+        className="search-string"
+        type="text"
+        value={searchStringValue}
+        onChange={handleChange}
+      />
+      <button className="search-button">Search</button>
+    </div>
+  );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Simple } from '../common/types';
+import { Simple } from '../../common/types';
 import './status.css';
 
 export default class StatusComponent extends React.Component<Simple> {
