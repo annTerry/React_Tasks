@@ -1,5 +1,5 @@
 # React_Components
-Educational project fo React RSSCourse
+Educational project for React RSSCourse
 
 # Install
 
@@ -8,7 +8,7 @@ git clone https://github.com/annTerry/React_Tasks.git
 
 cd React_Tasks
 
-git checkout forms
+git checkout hooks
 
 cd react_components
 
