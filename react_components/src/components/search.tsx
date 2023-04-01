@@ -1,18 +1,25 @@
-import React, { ChangeEvent, useState, useEffect } from 'react';
+import React, { ChangeEvent, useState, useEffect, useRef } from 'react';
 import './search.css';
 
 export default function SearchString() {
   const defaultValue = localStorage.getItem('searchString') || '';
-  const [searchStringValue, setOrders] = useState<string>(defaultValue);
+  const [searchStringValue, setSearchStringValue] = useState<string>(defaultValue);
+  const valueRef: React.MutableRefObject<string> = useRef() as React.MutableRefObject<string>;
 
   useEffect(() => {
-    localStorage.setItem('searchString', searchStringValue);
-  });
+    valueRef.current = searchStringValue;
+  }, [searchStringValue]);
+
+  useEffect(() => {
+    return function cleanup() {
+      localStorage.setItem('searchString', valueRef.current);
+    };
+  }, []);
 
   function handleChange(event: ChangeEvent) {
     const element = event.target as HTMLInputElement;
     const value = element.value;
-    setOrders(value);
+    setSearchStringValue(value);
   }
 
   return (

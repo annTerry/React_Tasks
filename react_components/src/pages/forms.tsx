@@ -1,15 +1,13 @@
-import OrderForms from '../components/formsComponents/orderForm';
-import AllOrderCards from '../components/formsComponents/orderAllCards';
-import React, { useState } from 'react';
-import { Order } from 'common/types';
+import OrderForms from '../components/formsComponents/OrderForm';
+import AllOrderCards from '../components/formsComponents/AllOrderCards';
+import React from 'react';
+import { Order, StateOrder } from 'common/types';
 
-export default function Forms() {
-  const [orders, setOrders] = useState<Order[]>([]);
-
+export default function Forms({ orders, saveOrder }: StateOrder) {
   const createCard = (order: Order) => {
-    const oldOrder = orders;
-    oldOrder.push(order);
-    setOrders(oldOrder);
+    if (saveOrder) {
+      saveOrder(order);
+    }
   };
 
   return (
