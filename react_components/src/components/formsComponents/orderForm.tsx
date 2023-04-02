@@ -21,7 +21,7 @@ export default function OrderForms({ saveOrder }: OrderData) {
     reset,
     formState,
     formState: { isSubmitSuccessful, errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({ reValidateMode: 'onSubmit' });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const newOrder: Order = {
@@ -50,7 +50,15 @@ export default function OrderForms({ saveOrder }: OrderData) {
         <label>
           Name:
           <input
-            {...register('name', { required: true, minLength: 2 })}
+            {...register('name', {
+              required: true,
+              minLength: 2,
+              validate: (nameValue) => {
+                if (nameValue.length > 2 && nameValue[0] != nameValue[0].toUpperCase()) {
+                  return 'First letter must be capital';
+                }
+              },
+            })}
             autoComplete="off"
             type="text"
             id="form-name"
@@ -59,7 +67,9 @@ export default function OrderForms({ saveOrder }: OrderData) {
           />
         </label>
         {errors.name && (
-          <div className="form-error">Name is required and must have at least two symbols </div>
+          <div className="form-error">
+            Name is required, must have at least two symbols and begins with capital letter
+          </div>
         )}
         <label>
           Date:
@@ -175,7 +185,17 @@ export default function OrderForms({ saveOrder }: OrderData) {
         <label>
           Invoice:
           <input
-            {...register('invoice', { required: true })}
+            {...register('invoice', {
+              required: true,
+              validate: (invoiceValue) => {
+                const correctValue = invoiceValue as FileList;
+                if (correctValue && correctValue.length > 0) {
+                  if (!/^image/.test(correctValue[0].type)) {
+                    return 'add picture';
+                  }
+                }
+              },
+            })}
             autoComplete="off"
             type="file"
             name="invoice"
@@ -183,7 +203,7 @@ export default function OrderForms({ saveOrder }: OrderData) {
             accept=".jpg,.png,.svg"
           />
         </label>
-        {errors.invoice && <div className="form-error">Please add invoice picture</div>}
+        {errors.invoice && <div className="form-error">Please add invoice image</div>}
         <input className="form__submit-button" type="submit" value="Submit" />
       </form>
     </div>
