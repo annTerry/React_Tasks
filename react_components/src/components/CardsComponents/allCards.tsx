@@ -1,4 +1,4 @@
-import { Card } from 'common/types';
+import { Card, BookResponse } from 'common/types';
 import React, { useState } from 'react';
 import OneCard from './card';
 import './allCards.css';
@@ -10,8 +10,23 @@ export default function AllCards() {
   fetch(DATA_PATH)
     .then((res) => res.json())
     .then((data) => {
-      const cards = data as Card[];
-      setOrders(cards);
+      const receivedData = data as BookResponse;
+      const newCards = receivedData.results.map((oneBookData, index) => {
+        const someINumber = index % 10;
+        return {
+          bookName: oneBookData.title,
+          author: oneBookData.authors.map((authorData) => authorData.name).join(', '),
+          popularity: Math.min(Math.floor(oneBookData.download_count / 5000), 5),
+          year: (2020 - Math.ceil(someINumber * 10)).toString(),
+          translation: oneBookData.translators.map((authorData) => authorData.name).join(', '),
+          cover: oneBookData.formats['image/jpeg'],
+          pages: 1000 - Math.ceil(someINumber * 5),
+          illustration: oneBookData.formats['application/octet-stream'] ? 'yes' : 'no',
+          quantity: Math.ceil(someINumber * 2) + 1,
+          state: oneBookData.copyright ? 'hot' : '',
+        };
+      });
+      setOrders(newCards);
     })
     .catch((e) => {
       console.log(e.message);

@@ -5,7 +5,7 @@ import OneCardProperty from '../CardsPropertyComponents/cardProperty';
 import { COVERS_URL, NO_COVER } from '../../common/const';
 
 export default function OneCard(card: Card) {
-  const coverSrc = COVERS_URL + (card.cover ? card.cover : NO_COVER);
+  const coverSrc = card.cover ? card.cover : COVERS_URL + NO_COVER;
   return (
     <div className="one-card__wrapper">
       <div className="one-card__cover">

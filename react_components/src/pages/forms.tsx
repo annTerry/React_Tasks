@@ -1,4 +1,4 @@
-import OrderForms from '../components/formsComponents/OrderForm';
+import OrderForms from '../components/formsComponents/OrderForms';
 import AllOrderCards from '../components/formsComponents/AllOrderCards';
 import React from 'react';
 import { Order, StateOrder } from 'common/types';

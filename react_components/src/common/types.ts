@@ -43,3 +43,30 @@ export type StateOrder = {
 export interface OrderData {
   saveOrder: (data: Order) => void;
 }
+
+export interface AuthorsData {
+  name: string;
+  birth_year: number;
+  death_year: number;
+}
+
+export interface BooksResults {
+  id: number;
+  title: string;
+  authors: AuthorsData[];
+  translators: AuthorsData[];
+  subjects: string[];
+  bookshelves: string[];
+  languages: string[];
+  copyright: boolean;
+  media_type: string;
+  formats: { [k: string]: string };
+  download_count: number;
+}
+
+export interface BookResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: BooksResults[];
+}
