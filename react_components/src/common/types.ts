@@ -5,6 +5,10 @@ export interface MiniCard {
   cover: string;
 }
 
+export interface SearchValue {
+  searchValue: string;
+}
+
 export interface ModalCardType {
   cardId: string;
   onClose: () => void;
@@ -13,6 +17,11 @@ export interface ModalCardType {
 export interface MiniCardSet {
   card: MiniCard;
   openModal: (id: string) => void;
+}
+
+export interface SendSearch {
+  searchString: (search: string) => void;
+  searchValue: string;
 }
 
 export interface Card {

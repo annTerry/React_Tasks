@@ -5,7 +5,7 @@ div.blackScreen {
     align-items: center;
     width: 100%;
     height: 100%;
-    background-color: rgba(255,255,255,0.6);
+    background-color: rgba(0,0,0,0.6);
     top: 0;
     left: 0;
     z-index: 20;
@@ -28,11 +28,25 @@ body:has(div.blackScreen) {
     margin-left: -20px;
 }
 
-div.blackScreen:hover .one-card__close-button, .one-card__close-button:hover {
+div.blackScreen:hover {
     cursor:pointer;
-    background-color: rgb(238, 247, 213);
+    background-color: rgba(0,0,0,0.8);
+}
+
+div.blackScreen:hover .one-card__close-button
+{
+    cursor:pointer;
+    background-color: rgb(111, 173, 130);
+}
+
+div.blackScreen__one-card__wrapper:hover .one-card__close-button {
+    background-color: aliceblue;  
+}
+
+div.blackScreen__one-card__wrapper div.one-card__close-button:hover {
+    cursor:pointer;
+    background-color: rgb(111, 173, 130);
 }
 div.blackScreen__one-card__wrapper:hover {
-    cursor:default;
-    background-color: aliceblue;
+    cursor:default;    
 }

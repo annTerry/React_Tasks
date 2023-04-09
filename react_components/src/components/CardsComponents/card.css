@@ -9,8 +9,7 @@
 .one-card__wrapper {
     display: flex;
     border: 2px solid black;
-    border-radius: 20px 20px 0 0;
-    filter: drop-shadow(15px 5px 4px #b5b5f3);
+    border-radius: 20px 20px 0 0;    
     background-color: #f7faeb;
     padding: 10px;
     gap: 10px;
