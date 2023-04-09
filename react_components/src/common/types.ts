@@ -1,3 +1,20 @@
+export interface MiniCard {
+  id: string;
+  bookName: string;
+  author: string;
+  cover: string;
+}
+
+export interface ModalCardType {
+  cardId: string;
+  onClose: () => void;
+}
+
+export interface MiniCardSet {
+  card: MiniCard;
+  openModal: (id: string) => void;
+}
+
 export interface Card {
   bookName: string;
   author: string;
