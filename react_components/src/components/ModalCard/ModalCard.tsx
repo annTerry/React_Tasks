@@ -3,9 +3,11 @@ import './ModalCard.css';
 import { BooksResults, Card, ModalCardType } from '../../common/types';
 import { DATA_PATH } from '../../common/const';
 import OneCard from '../CardsComponents/card';
+import LoadWaiter from '../Waiter';
 
 export default function ModalCard({ cardId, onClose }: ModalCardType) {
   const [data, dataSet] = useState<Card | null>(null);
+  const [waitForData, setWaitForData] = useState<boolean>(true);
   useEffect(() => {
     fetch(DATA_PATH + '/' + cardId)
       .then((res) => {
@@ -31,20 +33,23 @@ export default function ModalCard({ cardId, onClose }: ModalCardType) {
         };
       })
       .then((cardData: Card) => {
+        setWaitForData(false);
         dataSet(cardData);
       })
       .catch((err) => {
         console.log(err);
+        setWaitForData(false);
       });
   }, [cardId]);
   function clickHandler() {
     onClose();
   }
   return (
-    <div className="blackScreen">
+    <div className="blackScreen" onClick={clickHandler}>
       <div className="blackScreen__one-card__wrapper">
         <button className="one-card__close-button" onClick={clickHandler} />
         {data && <OneCard {...data}></OneCard>}
+        {waitForData && <LoadWaiter />}
       </div>
     </div>
   );

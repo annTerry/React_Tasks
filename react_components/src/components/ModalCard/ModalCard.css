@@ -8,7 +8,31 @@ div.blackScreen {
     background-color: rgba(255,255,255,0.6);
     top: 0;
     left: 0;
+    z-index: 20;
 }
-body {
+body:has(div.blackScreen) {
     overflow: hidden;
+}
+.one-card__close-button {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    border-radius: 30px;
+    background-color: aliceblue;
+    background-image: url("../../assets/icons/cross.svg");
+    background-size: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 40;
+    margin-top: -30px;
+    margin-left: -20px;
+}
+
+div.blackScreen:hover .one-card__close-button, .one-card__close-button:hover {
+    cursor:pointer;
+    background-color: rgb(238, 247, 213);
+}
+div.blackScreen__one-card__wrapper:hover {
+    cursor:default;
+    background-color: aliceblue;
 }

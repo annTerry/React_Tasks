@@ -1,0 +1,25 @@
+@keyframes spinner {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+.load-waiter-element {
+    display: flex;
+    gap: 10px;
+}
+
+.waiter-spinner {
+    width: 40px;
+    height: 40px;
+    background-size: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("../assets/icons/waiter.svg");
+    animation: 1.5s linear 0s normal none infinite running spinner;
+}
+ 
