@@ -25,7 +25,7 @@ body:has(div.blackScreen) {
     background-repeat: no-repeat;
     z-index: 40;
     margin-top: -30px;
-    margin-left: -20px;
+    margin-right: -20px;
 }
 
 div.blackScreen:hover {
@@ -49,4 +49,18 @@ div.blackScreen__one-card__wrapper div.one-card__close-button:hover {
 }
 div.blackScreen__one-card__wrapper:hover {
     cursor:default;    
+}
+.blackScreen__one-card__wrapper {
+    display: flex;
+    position: relative;
+    justify-content: end;
+}
+.blackScreen__one-card__wrapper .load-waiter-element {
+    color: white;
+}
+
+.blackScreen__one-card__wrapper .load-waiter-element .waiter-spinner{
+    width: 80px;
+    height: 80px;
+    background-size: 80px;
 }

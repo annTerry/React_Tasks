@@ -11,7 +11,8 @@ export default function ModalCard({ cardId, onClose }: ModalCardType) {
   const [error, setError] = useState<string>('');
 
   useEffect(() => {
-    fetch(DATA_PATH + '/' + cardId)
+    console.log(DATA_PATH + cardId);
+    fetch(DATA_PATH + cardId)
       .then((res) => {
         if (!res.ok) {
           throw Error(`No data for id ${cardId}`);

@@ -6,7 +6,8 @@ import React from 'react';
 
 describe('Search string', () => {
   test('Property has value', async () => {
-    render(<SearchString />);
+    function searchIt() {}
+    render(<SearchString searchValue="" searchString={searchIt} />);
     const input = await screen.findByPlaceholderText('Search');
     expect(input).toBeDefined();
     expect(input?.textContent).toBe('');
@@ -15,5 +16,6 @@ describe('Search string', () => {
     await user.keyboard('test');
     const button = await screen.findByRole('button');
     await user.click(button);
+    expect(input?.textContent).toBe('');
   });
 });
