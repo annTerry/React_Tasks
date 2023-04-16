@@ -1,0 +1,15 @@
+.orders__wrapper {
+    margin: 10px auto;
+    text-align: center;
+}
+.all-orders-card__wrapper {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    border: 1px solid #aaa;
+    padding: 5px;
+    border-radius: 15px;
+}

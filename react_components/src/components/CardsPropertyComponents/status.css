@@ -1,0 +1,11 @@
+.status__icon {
+    width: 25px;
+    height: 25px;
+    background-size: 21px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.icon__hot {
+    background-image: url('../../assets/icons/hot.svg');
+}
