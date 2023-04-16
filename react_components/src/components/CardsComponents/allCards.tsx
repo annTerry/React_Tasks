@@ -31,7 +31,7 @@ export default function AllCards() {
   function allCardsRender(): JSX.Element[] {
     let i = 0;
     let allCardsRender: JSX.Element[] = [];
-    if (newCards) {
+    if (newCards && newCards.length > 0) {
       allCardsRender = newCards.map((card) => {
         return <MiniCardElement key={i++} card={card} openModal={openThisModal} />;
       });

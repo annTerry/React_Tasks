@@ -11,6 +11,7 @@
 .load-waiter-element {
     display: flex;
     gap: 10px;
+    font-size: 2rem;
 }
 
 .waiter-spinner {

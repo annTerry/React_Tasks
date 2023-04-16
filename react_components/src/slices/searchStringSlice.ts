@@ -12,7 +12,9 @@ export const searchStringSlice = createSlice({
   initialState,
   reducers: {
     setNewString: (state, action: PayloadAction<Simple>) => {
-      state.value = action.payload.value;
+      const value = action.payload.value;
+      localStorage.setItem('searchString', value);
+      state.value = value;
     },
   },
 });
