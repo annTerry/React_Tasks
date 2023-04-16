@@ -1,30 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import './orderForm.css';
-import { Order } from 'common/types';
-import { useDispatch } from 'react-redux';
+import { Order, Inputs } from 'common/types';
+import { useDispatch, useSelector } from 'react-redux';
 import { addNewCard } from '../../slices/OrderCardsSlice';
-
-type Inputs = {
-  name: string;
-  date: string;
-  quantity: number;
-  presents: string[];
-  send: string;
-  country: string;
-  address: string;
-  invoice: FileList;
-};
+import type { RootState } from '../../common/store';
+import {
+  setName,
+  setAddress,
+  setCountry,
+  setDate,
+  setPresents,
+  setQuantity,
+  setSend,
+} from '../../slices/formsDataSlice';
 
 export default function OrderForms() {
   const dispatch = useDispatch();
-  const [cardSubmit, setCardSubmit] = useState<boolean>(false);
+  const [cardSubmit, setCardSubmitted] = useState<boolean>(false);
+  const formsValue = useSelector((state: RootState) => state.formData);
 
   const {
     register,
     handleSubmit,
     reset,
-    formState,
     formState: { isSubmitSuccessful, errors },
   } = useForm<Inputs>({ reValidateMode: 'onSubmit' });
 
@@ -40,17 +39,45 @@ export default function OrderForms() {
       invoice: URL.createObjectURL(data.invoice[0]),
     };
     dispatch(addNewCard(newOrder));
-    setCardSubmit(true);
+    setCardSubmitted(true);
     setTimeout(() => {
-      setCardSubmit(false);
+      setCardSubmitted(false);
     }, 1500);
   };
 
+  function handleChange(event: ChangeEvent) {
+    const element = event.target as HTMLInputElement;
+    const value = element.value;
+    const checked = element.checked;
+    const name = element.name;
+    if (name === 'name') dispatch(setName(value));
+    if (name === 'quantity') dispatch(setQuantity(+value));
+    if (name === 'address') dispatch(setAddress(value));
+    if (name === 'country') dispatch(setCountry(value));
+    if (name === 'send') dispatch(setSend(value));
+    if (name === 'date') dispatch(setDate(value));
+    if (name === 'presents') {
+      let oldPresents: string[];
+      if (checked) {
+        oldPresents = formsValue.presents.map((val) => val);
+        oldPresents.push(value);
+      } else oldPresents = formsValue.presents.filter((oldValue) => oldValue != value);
+      dispatch(setPresents(oldPresents));
+    }
+  }
+
   React.useEffect(() => {
     if (isSubmitSuccessful) {
+      dispatch(setName(''));
+      dispatch(setQuantity(0));
+      dispatch(setAddress(''));
+      dispatch(setCountry(''));
+      dispatch(setSend(''));
+      dispatch(setDate(''));
+      dispatch(setPresents([]));
       reset();
     }
-  }, [formState, isSubmitSuccessful, reset]);
+  }, [dispatch, isSubmitSuccessful, reset]);
 
   return (
     <div className="form__wrapper">
@@ -59,7 +86,9 @@ export default function OrderForms() {
         <label>
           Name:
           <input
+            value={formsValue.name}
             {...register('name', {
+              onChange: handleChange,
               required: true,
               minLength: 2,
               validate: (nameValue) => {
@@ -83,7 +112,8 @@ export default function OrderForms() {
         <label>
           Date:
           <input
-            {...register('date', { required: true })}
+            value={formsValue.date}
+            {...register('date', { onChange: handleChange, required: true })}
             autoComplete="off"
             type="date"
             id="form-name"
@@ -95,7 +125,8 @@ export default function OrderForms() {
         <label>
           Quantity:
           <input
-            {...register('quantity', { required: true, min: 1, max: 10 })}
+            value={formsValue.quantity > 0 ? formsValue.quantity : ''}
+            {...register('quantity', { onChange: handleChange, required: true, min: 1, max: 10 })}
             autoComplete="off"
             type="number"
             name="quantity"
@@ -110,7 +141,8 @@ export default function OrderForms() {
           <label>
             Postcard:
             <input
-              {...register('presents', { required: true })}
+              checked={formsValue.presents.includes('postcard')}
+              {...register('presents', { onChange: handleChange, required: true })}
               autoComplete="off"
               type="checkbox"
               name="presents"
@@ -120,7 +152,8 @@ export default function OrderForms() {
           <label>
             Wrapper:
             <input
-              {...register('presents', { required: true })}
+              checked={formsValue.presents.includes('wrapper')}
+              {...register('presents', { onChange: handleChange, required: true })}
               autoComplete="off"
               type="checkbox"
               name="presents"
@@ -130,7 +163,8 @@ export default function OrderForms() {
           <label>
             Bookmark:
             <input
-              {...register('presents', { required: true })}
+              checked={formsValue.presents.includes('bookmark')}
+              {...register('presents', { onChange: handleChange, required: true })}
               autoComplete="off"
               type="checkbox"
               name="presents"
@@ -144,7 +178,8 @@ export default function OrderForms() {
           <label>
             Post:
             <input
-              {...register('send', { required: true })}
+              checked={formsValue.send === 'post'}
+              {...register('send', { onChange: handleChange, required: true })}
               autoComplete="off"
               type="radio"
               name="send"
@@ -154,7 +189,8 @@ export default function OrderForms() {
           <label>
             DHL:
             <input
-              {...register('send', { required: true })}
+              checked={formsValue.send === 'dhl'}
+              {...register('send', { onChange: handleChange, required: true })}
               autoComplete="off"
               type="radio"
               name="send"
@@ -164,7 +200,8 @@ export default function OrderForms() {
           <label>
             Pony:
             <input
-              {...register('send', { required: true })}
+              checked={formsValue.send === 'pony'}
+              {...register('send', { onChange: handleChange, required: true })}
               autoComplete="off"
               type="radio"
               name="send"
@@ -173,7 +210,12 @@ export default function OrderForms() {
           </label>
         </fieldset>
         {errors.send && <div className="form-error">Please choose delivery</div>}
-        <select {...register('country', { required: true })} autoComplete="off" name="country">
+        <select
+          {...register('country', { onChange: handleChange, required: true })}
+          autoComplete="off"
+          name="country"
+          defaultValue={formsValue.country}
+        >
           <option value="">Country</option>
           <option value="UK">Uk</option>
           <option value="Ireland">Ireland</option>
@@ -183,7 +225,8 @@ export default function OrderForms() {
         <label>
           Address:
           <input
-            {...register('address', { required: true })}
+            value={formsValue.address}
+            {...register('address', { onChange: handleChange, required: true })}
             autoComplete="off"
             type="text"
             name="address"

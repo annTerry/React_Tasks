@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 
 export default function AllOrderCards() {
   const orders = useSelector((state: RootState) => state.orderCards.orders);
-
   const orderCards = orders.map((order, index) => (
     <OrderCard
       key={order.name + '_order' + '_' + index}

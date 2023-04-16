@@ -5,10 +5,6 @@ export interface MiniCard {
   cover: string;
 }
 
-export interface SearchValue {
-  searchValue: string;
-}
-
 export interface ModalCardType {
   cardId: string;
   onClose: () => void;
@@ -17,11 +13,6 @@ export interface ModalCardType {
 export interface MiniCardSet {
   card: MiniCard;
   openModal: (id: string) => void;
-}
-
-export interface SendSearch {
-  searchString: (search: string) => void;
-  searchValue: string;
 }
 
 export interface Card {
@@ -63,7 +54,6 @@ export interface Order {
 
 export type StateOrder = {
   orders: Order[];
-  saveOrder?: (data: Order) => void;
 };
 
 export interface OrderData {
@@ -96,3 +86,14 @@ export interface BookResponse {
   previous: string | null;
   results: BooksResults[];
 }
+
+export type Inputs = {
+  name: string;
+  date: string;
+  quantity: number;
+  presents: string[];
+  send: string;
+  country: string;
+  address: string;
+  invoice: FileList;
+};

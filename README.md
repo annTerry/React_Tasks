@@ -8,7 +8,7 @@ git clone https://github.com/annTerry/React_Tasks.git
 
 cd React_Tasks
 
-git checkout react-api
+git checkout redux
 
 cd react_components
 

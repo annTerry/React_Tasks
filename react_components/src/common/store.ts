@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import orderCardsSlice from '../slices/OrderCardsSlice';
 import searchStringSlice from '../slices/searchStringSlice';
+import formSlice from '../slices/formsDataSlice';
 import { libraryApi } from './queries';
 
 export const store = configureStore({
@@ -8,6 +9,7 @@ export const store = configureStore({
     orderCards: orderCardsSlice,
     searchString: searchStringSlice,
     [libraryApi.reducerPath]: libraryApi.reducer,
+    formData: formSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(libraryApi.middleware),
 });
