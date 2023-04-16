@@ -1,7 +1,9 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import './orderForm.css';
-import { Order, OrderData } from 'common/types';
+import { Order } from 'common/types';
+import { useDispatch } from 'react-redux';
+import { addNewCard } from '../../slices/OrderCardsSlice';
 
 type Inputs = {
   name: string;
@@ -14,7 +16,9 @@ type Inputs = {
   invoice: FileList;
 };
 
-export default function OrderForms({ saveOrder }: OrderData) {
+export default function OrderForms() {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -34,7 +38,7 @@ export default function OrderForms({ saveOrder }: OrderData) {
       address: data.address,
       invoice: URL.createObjectURL(data.invoice[0]),
     };
-    saveOrder(newOrder);
+    dispatch(addNewCard(newOrder));
   };
 
   React.useEffect(() => {
