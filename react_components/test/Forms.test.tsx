@@ -4,10 +4,17 @@ import userEvent from '@testing-library/user-event';
 import App from '../src/App';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { store } from '../src/common/store';
+import { Provider } from 'react-redux';
 
 describe('Router', () => {
   test('Click the form link', async () => {
-    render(<App />, { wrapper: BrowserRouter });
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      { wrapper: BrowserRouter }
+    );
 
     expect(screen.getByText('Order form')).toBeDefined();
     const user = userEvent.setup();

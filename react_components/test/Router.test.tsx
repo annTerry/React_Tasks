@@ -6,6 +6,8 @@ import React from 'react';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
+import { store } from '../src/common/store';
+import { Provider } from 'react-redux';
 
 const books = {
   count: 0,
@@ -30,7 +32,12 @@ afterEach(() => server.resetHandlers());
 
 describe('Router', () => {
   test('Click the about router link', async () => {
-    render(<App />, { wrapper: BrowserRouter });
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      { wrapper: BrowserRouter }
+    );
 
     expect(screen.getByText('About')).toBeDefined();
     const user = userEvent.setup();
@@ -41,14 +48,21 @@ describe('Router', () => {
     expect(about).toHaveBeenCalledTimes(1);
   });
   test('Go to 404 page', async () => {
-    render(<App />, { wrapper: BrowserRouter });
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      { wrapper: BrowserRouter }
+    );
 
     const wrongRoute = '/wrong/page';
 
     render(
-      <MemoryRouter initialEntries={[wrongRoute]}>
-        <App />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={[wrongRoute]}>
+          <App />
+        </MemoryRouter>
+      </Provider>
     );
     expect(screen.getByText(/404. Not Found/i)).toBeDefined();
   });

@@ -5,6 +5,8 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
+import { store } from '../src/common/store';
+import { Provider } from 'react-redux';
 
 const books = {
   count: 0,
@@ -30,9 +32,11 @@ afterEach(() => server.resetHandlers());
 describe('MainApp', () => {
   test('App rendering', async () => {
     render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     );
     const header = screen.getByRole('heading', { level: 1 });
     expect(header).toBeDefined();

@@ -3,11 +3,16 @@ import { render, screen } from '@testing-library/react';
 import SearchString from '../src/components/search';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import { store } from '../src/common/store';
+import { Provider } from 'react-redux';
 
 describe('Search string', () => {
   test('Property has value', async () => {
-    function searchIt() {}
-    render(<SearchString searchValue="" searchString={searchIt} />);
+    render(
+      <Provider store={store}>
+        <SearchString />
+      </Provider>
+    );
     const input = await screen.findByPlaceholderText('Search');
     expect(input).toBeDefined();
     expect(input?.textContent).toBe('');

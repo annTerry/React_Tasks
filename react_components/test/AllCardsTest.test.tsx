@@ -1,9 +1,11 @@
-import { afterAll, afterEach, beforeAll } from 'vitest';
+import { describe, expect, test, afterAll, afterEach, beforeAll } from 'vitest';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import AllCards from '../src/components/CardsComponents/allCards';
 import React from 'react';
+import { store } from '../src/common/store';
+import { Provider } from 'react-redux';
 
 const books = {
   count: 5,
@@ -45,14 +47,16 @@ const books = {
 };
 
 export const restHandlers = [
-  rest.get('https://gutendex.com/books/?search=test', (req, res, ctx) => {
+  rest.get('https://gutendex.com/books', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(books));
   }),
 ];
 
 const server = setupServer(...restHandlers);
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+beforeAll(() => {
+  server.listen({ onUnhandledRequest: 'error' });
+});
 
 afterAll(() => server.close());
 
@@ -60,7 +64,11 @@ afterEach(() => server.resetHandlers());
 
 describe('All Cards search', () => {
   test('App rendering', async () => {
-    render(<AllCards searchValue="test" />);
+    render(
+      <Provider store={store}>
+        <AllCards />
+      </Provider>
+    );
     expect(screen.getByText(/Load/i)).toBeDefined();
     await waitForElementToBeRemoved(() => screen.getByText(/Load/i));
     expect(screen.getAllByText(/Karenina/i).length).toBe(2);

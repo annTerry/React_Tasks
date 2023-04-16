@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import './orderForm.css';
 import { Order } from 'common/types';
@@ -18,6 +18,7 @@ type Inputs = {
 
 export default function OrderForms() {
   const dispatch = useDispatch();
+  const [cardSubmit, setCardSubmit] = useState<boolean>(false);
 
   const {
     register,
@@ -39,6 +40,10 @@ export default function OrderForms() {
       invoice: URL.createObjectURL(data.invoice[0]),
     };
     dispatch(addNewCard(newOrder));
+    setCardSubmit(true);
+    setTimeout(() => {
+      setCardSubmit(false);
+    }, 1500);
   };
 
   React.useEffect(() => {
@@ -210,6 +215,7 @@ export default function OrderForms() {
         {errors.invoice && <div className="form-error">Please add invoice image</div>}
         <input className="form__submit-button" type="submit" value="Submit" />
       </form>
+      {cardSubmit && <div className="data-submit-info">Submitted!</div>}
     </div>
   );
 }

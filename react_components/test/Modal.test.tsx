@@ -1,9 +1,11 @@
-import { afterAll, afterEach, beforeAll } from 'vitest';
+import { describe, expect, test, afterAll, afterEach, beforeAll } from 'vitest';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import ModalCard from '../src/components/ModalCard/ModalCard';
 import React from 'react';
+import { store } from '../src/common/store';
+import { Provider } from 'react-redux';
 
 const books = {
   id: 1399,
@@ -39,7 +41,11 @@ afterEach(() => server.resetHandlers());
 describe('Modal show', () => {
   test('App rendering', async () => {
     function closeIt() {}
-    render(<ModalCard cardId="1399" onClose={closeIt} />);
+    render(
+      <Provider store={store}>
+        <ModalCard cardId="1399" onClose={closeIt} />
+      </Provider>
+    );
     expect(screen.getByText(/Load/i)).toBeDefined();
     await waitForElementToBeRemoved(() => screen.getByText(/Load/i));
     expect(screen.getAllByText(/Karenina/i).length).toBe(1);

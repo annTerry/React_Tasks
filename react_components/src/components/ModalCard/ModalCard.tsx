@@ -6,7 +6,7 @@ import { useGetOneBookQuery } from '../../common/queries';
 import { Card, ModalCardType } from '../../common/types';
 
 export default function ModalCard({ cardId, onClose }: ModalCardType) {
-  const { data, error, isLoading } = useGetOneBookQuery(cardId);
+  const { data, error, isFetching } = useGetOneBookQuery(cardId);
   const someINumber = parseInt(cardId) % 10;
   let cardData: Card | null = null;
   if (data) {
@@ -34,7 +34,7 @@ export default function ModalCard({ cardId, onClose }: ModalCardType) {
   return (
     <div className="blackScreen" onClick={clickHandler}>
       <div className="blackScreen__one-card__wrapper" onClick={stopHandler}>
-        {isLoading && <LoadWaiter />}
+        {isFetching && <LoadWaiter />}
         {!data && <div className="error-on">No data for {cardId}</div>}
         {error && <div className="error-on">{error.toString()}</div>}
         <button className="one-card__close-button" onClick={clickHandler} />

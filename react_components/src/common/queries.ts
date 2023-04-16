@@ -7,12 +7,12 @@ export const libraryApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: DATA_PATH }),
   endpoints: (builder) => ({
     getBooksResult: builder.query<BookResponse, string>({
-      query: (searchString) => searchString ? `?search=${searchString}` : '',
+      query: (searchString) => (searchString ? `?search=${searchString}` : ''),
     }),
-    getOneBook:builder.query<BooksResults, string>({
+    getOneBook: builder.query<BooksResults, string>({
       query: (id) => `${id}`,
     }),
   }),
-})
+});
 
-export const { useGetBooksResultQuery, useGetOneBookQuery } = libraryApi
+export const { useGetBooksResultQuery, useGetOneBookQuery } = libraryApi;
