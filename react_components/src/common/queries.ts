@@ -2,9 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BookResponse, BooksResults } from './types';
 import { DATA_PATH } from './const';
 
-// Define a service using a base URL and expected endpoints
 export const libraryApi = createApi({
-  reducerPath: 'pokemonApi',
+  reducerPath: 'libraryApi',
   baseQuery: fetchBaseQuery({ baseUrl: DATA_PATH }),
   endpoints: (builder) => ({
     getBooksResult: builder.query<BookResponse, string>({
@@ -16,6 +15,4 @@ export const libraryApi = createApi({
   }),
 })
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
 export const { useGetBooksResultQuery, useGetOneBookQuery } = libraryApi

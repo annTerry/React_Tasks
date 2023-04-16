@@ -1,9 +1,15 @@
 import React, { ChangeEvent, useState, KeyboardEvent } from 'react';
 import './search.css';
-import { SendSearch } from '../common/types';
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState } from '../common/store';
+import { setNewString } from '../slices/searchStringSlice';
+import { Simple } from '../common/types';
 
-export default function SearchString({ searchString, searchValue }: SendSearch) {
-  const [searchStringValue, setSearchStringValue] = useState<string>(searchValue);
+export default function SearchString() {
+  const searchString = useSelector((state: RootState) => state.searchString.value);
+  const dispatch = useDispatch();
+
+  const [searchStringValue, setSearchStringValue] = useState<string>(searchString);
 
   function handleChange(event: ChangeEvent) {
     const element = event.target as HTMLInputElement;
@@ -18,8 +24,8 @@ export default function SearchString({ searchString, searchValue }: SendSearch) 
   }
 
   function searchIt() {
-    localStorage.setItem('searchString', searchStringValue);
-    searchString(searchStringValue);
+    const newValue: Simple = { value: searchStringValue };
+    dispatch(setNewString(newValue));
   }
 
   return (
