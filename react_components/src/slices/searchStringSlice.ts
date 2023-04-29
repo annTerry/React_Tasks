@@ -4,7 +4,7 @@ import type { RootState } from '../common/store';
 import { Simple } from '../common/types';
 
 const initialState: Simple = {
-  value: localStorage.getItem('searchString') || '',
+  value: '',
 };
 
 export const searchStringSlice = createSlice({
@@ -13,7 +13,6 @@ export const searchStringSlice = createSlice({
   reducers: {
     setNewString: (state, action: PayloadAction<Simple>) => {
       const value = action.payload.value;
-      localStorage.setItem('searchString', value);
       state.value = value;
     },
   },

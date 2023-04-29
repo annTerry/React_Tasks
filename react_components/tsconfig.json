@@ -16,5 +16,10 @@
       "resolveJsonModule": true
   },
   "include": ["./src/**/*", "styled.d.ts", "./setupTest.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "ts-node": {
+    "esm": true,
+    "transpileOnly": true,
+    "experimentalSpecifierResolution": "node"
+  }
 }
